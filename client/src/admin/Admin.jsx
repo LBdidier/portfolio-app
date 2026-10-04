@@ -23,10 +23,10 @@ function Login({ onLogin }) {
     finally { setBusy(false); }
   };
   return (
-    <div className="ad-login">
-      <form className="ad-card ad-loginbox" onSubmit={submit}>
-        <div className="mono ad-logo">didier@cloud:~/admin</div>
-        <h1 className="ad-title">Message dashboard</h1>
+    <div className="dsh-login">
+      <form className="dsh-card dsh-loginbox" onSubmit={submit}>
+        <div className="mono dsh-logo">didier@cloud:~/admin</div>
+        <h1 className="dsh-title">Message dashboard</h1>
         <input type="password" placeholder="Admin password" aria-label="Admin password" autoFocus value={pw} onChange={(e) => setPw(e.target.value)} />
         <button className="btn" disabled={busy || !pw}>{busy ? "Checking..." : "Sign in"}</button>
         {err && <div className="msg err">{err}</div>}
@@ -78,54 +78,54 @@ function Dashboard({ token, onLogout }) {
   const stats = [["Total", s.total], ["Unread", s.unread], ["Today", s.today], ["Handled", s.handled]];
 
   return (
-    <div className="ad-wrap">
-      <header className="ad-top">
-        <div><div className="mono ad-logo">didier@cloud:~/admin</div><h1 className="ad-title">Messages</h1></div>
-        <div className="ad-topbtns">
+    <div className="dsh-wrap">
+      <header className="dsh-top">
+        <div><div className="mono dsh-logo">didier@cloud:~/admin</div><h1 className="dsh-title">Messages</h1></div>
+        <div className="dsh-topbtns">
           <button className="btn ghost sm" onClick={load}>Refresh</button>
           <button className="btn ghost sm" onClick={onLogout}>Sign out</button>
         </div>
       </header>
 
-      <div className="ad-stats">
-        {stats.map(([k, v]) => <div className="ad-card ad-stat" key={k}><div className="ad-num">{v}</div><div className="ad-lbl">{k}</div></div>)}
+      <div className="dsh-stats">
+        {stats.map(([k, v]) => <div className="dsh-card dsh-stat" key={k}><div className="dsh-num">{v}</div><div className="dsh-lbl">{k}</div></div>)}
       </div>
 
-      <div className="ad-bar">
-        <input className="ad-search" placeholder="Search name, email or message..." aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} />
-        <div className="ad-pills">
+      <div className="dsh-bar">
+        <input className="dsh-search" placeholder="Search name, email or message..." aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} />
+        <div className="dsh-pills">
           {["all", "unread", "handled"].map((k) => (
-            <button key={k} className={"ad-pill" + (status === k ? " on" : "")} onClick={() => setStatus(k)}>{k}</button>
+            <button key={k} className={"dsh-pill" + (status === k ? " on" : "")} onClick={() => setStatus(k)}>{k}</button>
           ))}
         </div>
       </div>
 
       {err && <div className="msg err">{err}</div>}
-      {loading && !data.messages.length && <div className="ad-empty">Loading...</div>}
-      {!loading && !data.messages.length && <div className="ad-empty">No messages found.</div>}
+      {loading && !data.messages.length && <div className="dsh-empty">Loading...</div>}
+      {!loading && !data.messages.length && <div className="dsh-empty">No messages found.</div>}
 
-      <div className="ad-list">
+      <div className="dsh-list">
         {data.messages.map((m) => (
-          <div key={m.id} className={"ad-card ad-msg" + (m.is_read ? "" : " unread") + (open === m.id ? " open" : "")}>
-            <button className="ad-head" aria-expanded={open === m.id} onClick={() => toggle(m)}>
-              <span className="ad-who">
-                {!m.is_read && <i className="ad-dot" />}
+          <div key={m.id} className={"dsh-card dsh-msg" + (m.is_read ? "" : " unread") + (open === m.id ? " open" : "")}>
+            <button className="dsh-head" aria-expanded={open === m.id} onClick={() => toggle(m)}>
+              <span className="dsh-who">
+                {!m.is_read && <i className="dsh-dot" />}
                 <b>{m.name}</b><small className="mono">{m.email}</small>
               </span>
-              <span className="ad-meta">
-                {m.handled && <span className="ad-tag ok">handled</span>}
-                {m.reply_sent && <span className="ad-tag">auto-reply sent</span>}
+              <span className="dsh-meta">
+                {m.handled && <span className="dsh-tag ok">handled</span>}
+                {m.reply_sent && <span className="dsh-tag">auto-reply sent</span>}
                 <small>{fmt(m.created_at)}</small>
               </span>
             </button>
-            {open !== m.id && <div className="ad-preview">{m.message}</div>}
+            {open !== m.id && <div className="dsh-preview">{m.message}</div>}
             {open === m.id && (
-              <div className="ad-body">
-                <div className="ad-info mono">
+              <div className="dsh-body">
+                <div className="dsh-info mono">
                   <span>{m.email}</span>{m.phone && <span>{m.phone}</span>}
                 </div>
-                <p className="ad-text">{m.message}</p>
-                <div className="ad-actions">
+                <p className="dsh-text">{m.message}</p>
+                <div className="dsh-actions">
                   <a className="btn sm" href={`mailto:${m.email}?subject=${encodeURIComponent("Re: your message")}&body=${encodeURIComponent(`Hi ${m.name.split(" ")[0]},\n\n`)}`}>Reply by email</a>
                   <button className="btn ghost sm" onClick={() => patch(m, { handled: !m.handled })}>{m.handled ? "Mark as not handled" : "Mark as handled"}</button>
                   <button className="btn ghost sm" onClick={() => patch(m, { is_read: false })}>Mark unread</button>

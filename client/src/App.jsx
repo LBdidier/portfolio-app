@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import startBg from "./bg";
-import { LINKS, SKILLS, JOBS, SERVICES, OUT, CMDS } from "./data";
+import { LINKS, SKILLS, JOBS, SERVICES, OUT, CMDS, ABOUT, EDU } from "./data";
 
 function Terminal() {
   const [lines, setLines] = useState([]);
@@ -39,8 +39,8 @@ function Terminal() {
     else if (OUT[c]) OUT[c]().forEach((t) => l.push(["o", t]));
     else l.push(["m", `command not found: ${c} (try 'help')`]);
     setLines((p) => [...p, ...l]);
-    if (["skills", "experience", "services", "contact"].includes(c)) {
-      const el = document.getElementById(c);
+    if (["skills", "experience", "services", "contact", "education"].includes(c)) {
+      const el = document.getElementById(c === "education" ? "about" : c);
       if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth" }), 500);
     }
   };
@@ -78,6 +78,15 @@ function Photo() {
       {ok ? <img src="/photo.jpg" alt="Didier Luboya" onError={() => setOk(false)} /> : <div className="ph">DL</div>}
     </div>
   );
+}
+
+const BRAND = { Capgemini: "#0070AD" };
+const MS = ["#f25022", "#7fba00", "#00a4ef", "#ffb900"];
+function CoName({ co }) {
+  if (co === "Microsoft")
+    return <span className="co">{[...co].map((ch, i) => <span key={i} style={{ color: MS[i % 4] }}>{ch}</span>)}</span>;
+  if (BRAND[co]) return <span className="co" style={{ color: BRAND[co] }}>{co}</span>;
+  return <span className="co cgrad">{co}</span>;
 }
 
 function Acc({ title, sub, cls, children }) {
@@ -118,6 +127,7 @@ function Contact() {
   return (
     <div className="card">
       <p style={{ marginBottom: 14 }}>Open to cloud, infrastructure and full-stack projects. Send me a message.</p>
+      <p className="mono cinfo"><a className="c" href="mailto:didierluboya7@gmail.com">didierluboya7@gmail.com</a> · <a className="c" href="tel:+48515595109">+48 515 595 109</a></p>
       <form className="form" onSubmit={send}>
         <input aria-label="Name" placeholder="Name" required maxLength="100" value={f.name} onChange={set("name")} />
         <input aria-label="Email" type="email" placeholder="Email" required maxLength="150" value={f.email} onChange={set("email")} />
@@ -140,7 +150,7 @@ export default function App() {
       <nav className="mono">
         <a href="#top" style={{ color: "var(--accent)" }}>didier@cloud</a>
         <div className="navlinks">
-          {["skills", "experience", "services", "contact"].map((s) => <a key={s} href={"#" + s}>{s}</a>)}
+          {["about", "skills", "experience", "services", "contact"].map((s) => <a key={s} href={"#" + s}>{s}</a>)}
         </div>
         <div className="soc">
           <a href={LINKS.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
@@ -163,6 +173,14 @@ export default function App() {
           </div>
           <div className="herogrid"><Terminal /><Photo /></div>
         </section>
+        <section id="about"><h2>about</h2>
+          <div className="card aboutcard"><p>{ABOUT}</p></div>
+          <div className="grid" style={{ marginTop: 16 }}>
+            {EDU.map((e) => (
+              <div className="card" key={e.deg + e.years}><h3>{e.deg}</h3><p>{e.school}</p><p className="mono" style={{ marginTop: 6, fontSize: 13 }}>{e.years}</p></div>
+            ))}
+          </div>
+        </section>
         <section id="skills"><h2>skills</h2>
           <div className="grid">
             {Object.entries(SKILLS).map(([k, v]) => (
@@ -172,7 +190,7 @@ export default function App() {
         </section>
         <section id="experience"><h2>experience</h2>
           {JOBS.map((j) => (
-            <Acc key={j.role + j.co} cls="job" title={`${j.role} · ${j.co}`} sub={j.when}>
+            <Acc key={j.role + j.co} cls="job" title={<>{j.role} · <CoName co={j.co} /></>} sub={j.when}>
               <ul>{j.pts.map((p) => <li key={p}>{p}</li>)}</ul>
             </Acc>
           ))}

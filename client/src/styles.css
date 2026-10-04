@@ -36,7 +36,7 @@ h2{font-family:"Space Grotesk",system-ui,sans-serif;font-size:28px;letter-spacin
 @media(max-width:560px){.form{grid-template-columns:1fr}}
 .acc{all:unset;box-sizing:border-box;display:flex;width:100%;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;color:var(--text)}
 .acc:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
-.acc span:first-child{display:flex;flex-direction:column}.acc b{font-size:16px}.acc small{color:var(--muted);font-weight:400;font-size:12.5px}
+.acc>span:first-child{display:flex;flex-direction:column}.acc b{font-size:16px}.acc small{color:var(--muted);font-weight:400;font-size:12.5px}
 .acc:hover b{color:var(--accent)}.pm{color:var(--accent);font-size:20px}
 .accb{margin-top:10px}.card.open{border-color:var(--accent)}.grid{align-items:start}
 .job{padding-bottom:10px}.job ul{margin:0;padding-left:18px;color:var(--muted)}.job .accb{margin-bottom:12px}
@@ -94,3 +94,9 @@ main{position:relative;z-index:1}
 .role{font:700 clamp(16px,2.6vw,22px) "Space Grotesk",system-ui,sans-serif;color:var(--accent);margin:0 0 12px;letter-spacing:-.01em}
 .lead{max-width:760px;margin-bottom:14px}
 .quote{font-style:italic;font-weight:500;max-width:760px;margin:0 0 24px;padding-left:14px;border-left:3px solid var(--blue)}
+#about .card{border:2px solid transparent;background:linear-gradient(var(--panel),var(--panel)) padding-box,linear-gradient(135deg,var(--accent),var(--blue)) border-box;box-shadow:0 20px 48px rgba(20,40,70,.2),0 6px 14px rgba(20,40,70,.12)}
+#about .card h3{color:var(--gold)}
+#about .aboutcard p{color:var(--text);font-size:17px;line-height:1.7}
+.cinfo{margin:0 0 16px;font-size:14px}
+.co{font-weight:700}
+.cgrad{background:linear-gradient(90deg,var(--blue),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}

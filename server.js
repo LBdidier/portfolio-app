@@ -24,6 +24,8 @@ app.use(helmet({
       fontSrc: ['https://fonts.gstatic.com'],
       imgSrc: ["'self'", 'data:'],
       connectSrc: ["'self'"],
+      // only upgrade requests to https once the site really runs on https (set HTTPS=true in .env)
+      upgradeInsecureRequests: process.env.HTTPS === 'true' ? [] : null,
     },
   },
 }));
