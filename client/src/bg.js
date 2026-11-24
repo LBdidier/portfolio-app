@@ -6,7 +6,7 @@ export default function startBg(canvas) {
   const B = cs.getPropertyValue("--blue").trim() || "#1d6fd1";
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const WORDS = ["{ }", "</>", "01", "git", "k8s", "az", "sudo", "docker", "terraform", "$_", "=>", "API", "SQL", "VM", "AKS", "VNet", "ssh", "CI/CD", "10.0.0.1", "yaml"];
-  const D = 160;
+  const D = innerWidth < 640 ? 120 : 160;
   const rnd = (a, b) => a + Math.random() * (b - a);
   let w, h, nodes = [], tokens = [], packets = [], raf, timer;
 
@@ -15,7 +15,7 @@ export default function startBg(canvas) {
     w = window.innerWidth; h = window.innerHeight;
     canvas.width = w * dpr; canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.round(Math.min(70, Math.max(24, (w * h) / 22000)));
+    const n = Math.round(Math.min(60, Math.max(18, (w * h) / 26000)));
     nodes = Array.from({ length: n }, (_, i) => ({ x: rnd(0, w), y: rnd(0, h), vx: rnd(-0.25, 0.25), vy: rnd(-0.25, 0.25), cloud: i < 6 }));
     tokens = Array.from({ length: Math.max(8, Math.round(w / 70)) }, () => ({ t: WORDS[(Math.random() * WORDS.length) | 0], x: rnd(0, w), y: rnd(0, h), v: rnd(0.15, 0.5), s: rnd(11, 16) }));
     packets = [];
@@ -68,12 +68,15 @@ export default function startBg(canvas) {
       else { ctx.fillStyle = G; ctx.globalAlpha = 0.5; blob(n.x, n.y, 2.4); }
     }
     ctx.globalAlpha = 1;
-    if (!reduce) raf = requestAnimationFrame(frame);
+    if (!reduce && !document.hidden) raf = requestAnimationFrame(frame);
   }
+  const onVis = () => { cancelAnimationFrame(raf); if (!reduce && !document.hidden) raf = requestAnimationFrame(frame); };
+  document.addEventListener("visibilitychange", onVis);
 
-  const onResize = () => { clearTimeout(timer); timer = setTimeout(size, 200); };
+  let lastW = innerWidth;
+  const onResize = () => { if (innerWidth === lastW) return; lastW = innerWidth; clearTimeout(timer); timer = setTimeout(size, 200); };
   window.addEventListener("resize", onResize);
   size();
   if (!reduce) frame();
-  return () => { cancelAnimationFrame(raf); clearTimeout(timer); window.removeEventListener("resize", onResize); };
+  return () => { cancelAnimationFrame(raf); clearTimeout(timer); window.removeEventListener("resize", onResize); document.removeEventListener("visibilitychange", onVis); };
 }

@@ -1,3 +1,5 @@
+export const SINCE=2018;
+export const YEARS=new Date().getFullYear()-SINCE;
 export const LINKS={linkedin:"https://www.linkedin.com/in/didier-luboya",instagram:"https://www.instagram.com/didierlb_7"};
 export const SKILLS={
  "Cloud & Azure":["Azure VMs & VNets","AKS & Docker","Azure SQL (HA)","Blob / File / Queue","Databricks","App Service","Elastic SAN"],
@@ -32,6 +34,18 @@ export const OUT={
  experience:()=>JOBS.map(j=>j.role+" @ "+j.co+" ("+j.when+")"),
  services:()=>SERVICES.map(s=>"• "+s[0]),
  contact:()=>["email    : didierluboya7@gmail.com","phone    : +48 515 595 109","location : Kraków, Poland","languages: French (native), English (fluent)","linkedin : linkedin.com/in/didier-luboya","instagram: instagram.com/didierlb_7"],
- neofetch:()=>["didier@cloud","------------","OS      : Linux (Ubuntu)","Cloud   : Azure","Focus   : Azure, Terraform, AKS","Identity: Active Directory","Shell   : bash 5.2","Uptime  : 7+ years in tech"]
+ neofetch:()=>["didier@cloud","------------","OS      : Linux (Ubuntu)","Cloud   : Azure","Focus   : Azure, Terraform, AKS","Identity: Active Directory","Shell   : bash 5.2","Uptime  : "+YEARS+"+ years in tech"]
 };
 export const CMDS=["whoami","skills","experience","education","services","contact","neofetch","help","clear"];
+
+export const ROLES=["Azure infrastructure","Terraform modules","AKS clusters","CI/CD pipelines","secure identity","hybrid migrations"];
+export const STACK=["Azure","Terraform","Kubernetes","Docker","PowerShell","Bash","Ansible","GitHub","Linux","Windows Server","VMware","Azure Monitor","Azure AD","CyberArk","PostgreSQL","React","Node.js","Databricks"];
+export const PIPELINE=[
+ {k:"plan",t:"Plan",d:"Architecture, landing zones, RBAC model",tools:"Git · GitHub"},
+ {k:"code",t:"Code",d:"Infrastructure as code and scripts",tools:"Terraform · PowerShell · Bash"},
+ {k:"build",t:"Build",d:"Containers and versioned artifacts",tools:"Docker · CI/CD"},
+ {k:"test",t:"Validate",d:"Plan, policy and config checks",tools:"terraform plan · Ansible"},
+ {k:"deploy",t:"Deploy",d:"Automated, repeatable releases",tools:"AKS · App Service · VMs"},
+ {k:"monitor",t:"Operate",d:"Metrics, alerts and incident response",tools:"Azure Monitor · SAS Viya"}
+];
+export const COUNTRIES=["Poland","UAE","India"];
